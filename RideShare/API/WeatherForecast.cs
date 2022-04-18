@@ -1,4 +1,4 @@
-namespace RideShare.API
+namespace API
 {
     public class WeatherForecast
     {
