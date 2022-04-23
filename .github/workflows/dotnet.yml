@@ -12,8 +12,6 @@ on:
     paths:
     - '**.cs'
     - '**.csproj'
-    paths-ignore:
-    - 'README.md'
 
 # Create an environment variable named DOTNET_VERSION
 # and set it as "6.0.x"
