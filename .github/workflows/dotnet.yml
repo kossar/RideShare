@@ -9,6 +9,9 @@ on:
   push:
   pull_request:
     branches: [ main ]
+    paths:
+    - '**.cs'
+    - '**.csproj'
     paths-ignore:
     - 'README.md'
 
