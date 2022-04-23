@@ -15,4 +15,9 @@
     <Folder Include="MappingProfiles\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Contracts.Domain.Base\Contracts.Domain.Base.csproj" />
+    <ProjectReference Include="..\DAL.App.DTO\DAL.App.DTO.csproj" />
+  </ItemGroup>
+
 </Project>

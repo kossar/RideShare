@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Base.Identity;
 
-public class BaseRole<TUserRole> : BaseRole<Guid, TUserRole>, IDomainEntityId
+public class BaseRole<TUserRole> : BaseRole<Guid, TUserRole>, IDomainEntity
     where TUserRole : IdentityUserRole<Guid>
 {
     public BaseRole() : base()
@@ -15,7 +15,7 @@ public class BaseRole<TUserRole> : BaseRole<Guid, TUserRole>, IDomainEntityId
     }
 }
 
-public class BaseRole<TKey, TUserRole> : IdentityRole<TKey>, IDomainEntityId<TKey>
+public class BaseRole<TKey, TUserRole> : IdentityRole<TKey>, IDomainEntity<TKey>
     where TKey : IEquatable<TKey>
     where TUserRole : IdentityUserRole<TKey>
 {
@@ -27,6 +27,10 @@ public class BaseRole<TKey, TUserRole> : IdentityRole<TKey>, IDomainEntityId<TKe
     }
 
 
-    [MaxLength(128)] public string DisplayName { get; set; } = default!;
+    public string DisplayName { get; set; } = default!;
     public virtual ICollection<TUserRole>? UserRoles { get; set; }
+    public bool IsDeleted { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime? ModifiedAt { get; set; }
+    public DateTime? DeletedAt { get; set; }
 }

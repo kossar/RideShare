@@ -6,10 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>b862a014-7bc5-4d94-9af4-2478aab8d22d</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+	  <PreserveCompilationContext>true</PreserveCompilationContext>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.4" />
@@ -25,7 +28,24 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Configuration\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\API.DTO.v1\API.DTO.v1.csproj" />
+    <ProjectReference Include="..\BLL.App.DTO\BLL.App.DTO.csproj" />
+    <ProjectReference Include="..\BLL.App\BLL.App.csproj" />
+    <ProjectReference Include="..\Contracts.BLL.App\Contracts.BLL.App.csproj" />
+    <ProjectReference Include="..\DAL.App.EF\DAL.App.EF.csproj" />
+    <ProjectReference Include="..\Extensions.Base\Extensions.Base.csproj" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="Tests.IntegrationTests" />
+	</ItemGroup>
 </Project>

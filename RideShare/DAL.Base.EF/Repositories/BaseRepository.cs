@@ -49,6 +49,8 @@ public class BaseRepository<TDalEntity, TDomainEntity, TKey, TDbContext> : IBase
             query = query.Where(e => ((IDomainUserId<TKey>)e).UserId.Equals(userId));
         }
 
+        query = query.Where(e => ((IDomainEntity)e).IsDeleted == false);
+
         if (noTracking)
         {
             query = query.AsNoTracking();
@@ -71,7 +73,7 @@ public class BaseRepository<TDalEntity, TDomainEntity, TKey, TDbContext> : IBase
     {
         var query = CreateQuery(userId, noTracking);
 
-        return Mapper.Map(await query.FirstOrDefaultAsync(e => e!.Id.Equals(id)));
+        return Mapper.Map(await query.FirstOrDefaultAsync(e => e.Id.Equals(id)));
     }
 
     public virtual TDalEntity Add(TDalEntity entity)

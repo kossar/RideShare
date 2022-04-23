@@ -8,10 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Contracts.DAL.Base\Contracts.DAL.Base.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Repositories\" />
+    <ProjectReference Include="..\DAL.App.DTO\DAL.App.DTO.csproj" />
   </ItemGroup>
 
 </Project>
