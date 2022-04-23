@@ -1,4 +1,5 @@
-﻿using Domain.Base.Identity;
+﻿using Domain.Base;
+using Domain.Base.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +38,14 @@ namespace DAL.Base.EF
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<IdentityUserClaim<Guid>>().ToTable("UserClaim");
+            builder.Entity<IdentityUserLogin<Guid>>().ToTable("UserLogin");
+            builder.Entity<IdentityRoleClaim<Guid>>().ToTable("RoleClaim");
+            builder.Entity<IdentityUserToken<Guid>>().ToTable("UserToken");
+            builder.Entity<TRole>().ToTable("Role");
+            builder.Entity<TUser>().ToTable("User");
+            builder.Entity<TUserRole>().ToTable("UserRole");
+
             // disable cascade delete initially for everything
             foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
@@ -53,71 +62,62 @@ namespace DAL.Base.EF
                 .HasOne(x => x.Role)
                 .WithMany(x => x!.UserRoles)
                 .HasForeignKey(x => x.RoleId);
+
+            builder.Entity<TUser>()
+                .Property(u => u.FirstName)
+                .HasMaxLength(128);
+
+            builder.Entity<TUser>()
+                .Property(u => u.LastName)
+                .HasMaxLength(128);
+
+            builder.Entity<TUser>()
+                .Property(u => u.Email)
+                .HasMaxLength(128);
+
+            builder.Entity<TUser>()
+                .Property(u => u.PhoneNumber)
+                .HasMaxLength(64);
+
+            builder.Entity<TRole>()
+                .Property(u => u.DisplayName)
+                .HasMaxLength(64);
         }
 
-        //TODO: override savechanges to save metadata
-        //public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken()) =>
-        //    SaveChangesAsync(acceptAllChangesOnSuccess: true, cancellationToken: cancellationToken);
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken()) =>
+            SaveChangesAsync(acceptAllChangesOnSuccess: true, cancellationToken: cancellationToken);
 
-        //public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,
-        //    CancellationToken cancellationToken = new CancellationToken())
-        //{
-        //    // Delete the possible Langstrings when entity is deleted - there is no cascade delete from entity->langstring
-        //    var entities = ChangeTracker.Entries().Where(entry => entry.State == EntityState.Deleted);
-        //    foreach (var entity in entities.ToList())
-        //    {
-        //        var langStringsToDelete = new List<TLangString>();
+        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,
+            CancellationToken cancellationToken = new CancellationToken())
+        {
+            var entities = ChangeTracker.Entries();
 
-        //        foreach (var reference in entity.References.Where(x => x.Metadata.FieldInfo.FieldType == typeof(TLangString) || x.Metadata.FieldInfo.FieldType.IsSubclassOf(typeof(BaseLangString<TKey, TTranslation>))))
-        //        {
-        //            var foreignKey = (reference.Metadata as INavigation)?.ForeignKey;
-        //            var fkPropertyName = foreignKey?.Properties
-        //                .Single().Name;
-        //            if (fkPropertyName != null)
-        //            {
-        //                if (reference.TargetEntry == null)
-        //                {
-        //                    // get the fk value
-        //                    var fkProperty = entity.Entity.GetType().GetProperties()
-        //                        .First(x => x.Name == fkPropertyName);
+            foreach (var entity in entities.ToList())
+            {
+                var created = entity.State == EntityState.Added;
+                var deleted = entity.State == EntityState.Deleted;
+                var modified = entity.State == EntityState.Modified;
 
-        //                    var val = fkProperty.GetValue(entity.Entity);
-        //                    if (val == null)
-        //                    {
-        //                        continue;
-        //                    }
-        //                    var fkValue = (TKey)val;
-
-        //                    // make up almost empty entity - we just need the id for delete
-        //                    var fkEntity = new TLangString()
-        //                    {
-        //                        Id = fkValue
-        //                    };
-        //                    langStringsToDelete.Add(fkEntity);
-
-        //                }
-        //                else
-        //                {
-        //                    if (reference.TargetEntry.Entity is TLangString langStringToDelete)
-        //                    {
-        //                        langStringsToDelete.Add(langStringToDelete);
-        //                    }
-
-        //                }
+                if ((created || modified || deleted) && entity.Entity is DomainEntity domainEntity)
+                {
+                    switch (entity.State)
+                    {
+                        case EntityState.Modified:
+                            domainEntity.ModifiedAt = DateTime.UtcNow;
+                            break;
+                        case EntityState.Added:
+                            domainEntity.CreatedAt = DateTime.UtcNow;
+                            break;
+                        case EntityState.Deleted:
+                            entity.State = EntityState.Modified;
+                            domainEntity.DeletedAt = DateTime.UtcNow;
+                            break;
+                    }
+                }
+            }
 
 
-        //            }
-        //        }
-
-        //        // delete all found langstrings
-        //        if (langStringsToDelete.Count > 0)
-        //        {
-        //            Set<TLangString>().RemoveRange(langStringsToDelete);
-        //        }
-        //    }
-
-
-        //    return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-        //}
+            return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
     }
 }

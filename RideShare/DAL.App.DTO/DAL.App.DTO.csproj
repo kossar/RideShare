@@ -13,6 +13,11 @@
 
   <ItemGroup>
     <Folder Include="MappingProfiles\" />
+    <Folder Include="Common\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.App\Domain.App.csproj" />
   </ItemGroup>
 
 </Project>
