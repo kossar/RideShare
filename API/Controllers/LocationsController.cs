@@ -41,7 +41,6 @@ public class LocationsController : ControllerBase
     /// Gets all locations.
     /// </summary>
     /// <returns>List of API.DTO.v1.Locations</returns>
-    [AllowAnonymous]
     [HttpGet]
     [HttpGet]
     [Produces("application/json")]

@@ -66,7 +66,7 @@ public class LocationControllerTests : IClassFixture<LocationWebApplicationFacto
         var data = JsonHelper.DeserializeWithWebDefaults<IEnumerable<LocationAddModel>>(body);
 
         Assert.NotNull(data);
-        Assert.Equal(1, data?.Count());
+        Assert.Equal(5, data?.Count());
     }
 
     [Fact]
