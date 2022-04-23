@@ -25,10 +25,7 @@ jobs:
     # When the workflow runs, this is the name that is logged
     # This job will run three times, once for each "os" defined
     name: build-and-test-${{matrix.os}}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+    runs-on: ubuntu-latest
 
     # Each job run contains these five steps
     steps:
