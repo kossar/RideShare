@@ -62,10 +62,10 @@ public class VehicleControllerTests : IClassFixture<VehicleWebApplicationFactory
         //ASSERT
         response.EnsureSuccessStatusCode();
         var body = await response.Content.ReadAsStringAsync();
-        var data = JsonHelper.DeserializeWithWebDefaults<IEnumerable<VehicleAddModel>>(body);
+        var data = JsonHelper.DeserializeWithWebDefaults<IEnumerable<VehicleModel>>(body);
 
         Assert.NotNull(data);
-        Assert.Equal(4, data?.Count());
+        Assert.True(data?.Any());
     }
 
     [Fact]
