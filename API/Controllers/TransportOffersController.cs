@@ -1,13 +1,11 @@
 ﻿using API.DTO.v1.Models;
 using API.DTO.v1.Mappers;
-using API.DTO.v1.Models;
 using API.DTO.v1.Models.TransportOffer;
 using AutoMapper;
 using Contracts.BLL.App;
 using Extensions.Base;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
