@@ -25,15 +25,6 @@ public class AppDbContext : BaseDbContext<User, Role, UserRole, IdentityUserClai
         base.OnModelCreating(builder);
 
         //Transport
-        builder.Entity<Transport>()
-            .HasOne(t => t.StartLocation)
-            .WithMany(l => l.TransportStartLocations)
-            .HasForeignKey(t => t.StartLocationId);
-
-        builder.Entity<Transport>()
-            .HasOne(t => t.DestinationLocation)
-            .WithMany(l => l.TransportDestinationLocations)
-            .HasForeignKey(t => t.DestinationLocationId);
 
         builder.Entity<Transport>()
             .HasOne(t => t.TransportNeed)

@@ -13,8 +13,6 @@ namespace Domain.App
         public string City { get; set; } = default!;
         public string Address { get; set; } = default!;
         public string? Description { get; set; }
-        public ICollection<Transport>? TransportStartLocations { get; set; }
-        public ICollection<Transport>? TransportDestinationLocations { get; set; }
         public ICollection<TransportOffer>? TransportOfferStartLocations { get; set; }
         public ICollection<TransportOffer>? TransportOfferDestinationLocations { get; set; }
         public ICollection<TransportNeed>? TransportNeedStartLocations { get; set; }

@@ -13,5 +13,5 @@ public class Schedule : DomainEntity
     public Guid? TransportId { get; set; }
     public virtual Transport? Transport { get; set; }
 
-    public DateTime ScheduledAt { get; set; }
+    public string Name { get; set; } = default!;
 }

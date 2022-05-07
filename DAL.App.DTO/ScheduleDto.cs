@@ -14,5 +14,5 @@ public class ScheduleDto : BaseDto
     public Guid? TransportId { get; set; }
     public virtual TransportDto? Transport { get; set; }
 
-    public DateTime ScheduledAt { get; set; }
+    public string Name { get; set; } = default!;
 }

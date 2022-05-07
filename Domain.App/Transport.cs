@@ -9,11 +9,7 @@ public class Transport : DomainEntity, IDomainUserId, IDomainUser<User>
 {
     public Guid UserId { get; set; }
     public virtual User? User { get; set; }
-    public Guid StartLocationId { get; set; }
-    public virtual Location? StartLocation { get; set; }
-    public Guid DestinationLocationId { get; set; }
-    public virtual Location? DestinationLocation { get; set; }
-
+   
     public Guid TransportNeedId { get; set; }
     public virtual TransportNeed? TransportNeed { get; set; }
 
