@@ -48,6 +48,11 @@ public class AppDbContext : BaseDbContext<User, Role, UserRole, IdentityUserClai
             .HasForeignKey(t => t.DestinationLocationId);
 
         builder.Entity<TransportNeed>()
+            .HasOne(t => t.Schedule)
+            .WithMany(l => l.TransportNeeds)
+            .HasForeignKey(t => t.ScheduleId);
+
+        builder.Entity<TransportNeed>()
             .Property(n => n.Price)
             .HasPrecision(9, 2);
 
@@ -72,6 +77,11 @@ public class AppDbContext : BaseDbContext<User, Role, UserRole, IdentityUserClai
             .HasForeignKey(t => t.VehicleId);
 
         builder.Entity<TransportOffer>()
+            .HasOne(t => t.Schedule)
+            .WithMany(l => l.TransportOffers)
+            .HasForeignKey(t => t.ScheduleId);
+
+        builder.Entity<TransportOffer>()
             .Property(o => o.Price)
             .HasPrecision(9, 2);
 
@@ -81,19 +91,8 @@ public class AppDbContext : BaseDbContext<User, Role, UserRole, IdentityUserClai
 
         //Schedule
         builder.Entity<Schedule>()
-            .HasOne(s => s.TransportNeed)
-            .WithMany(t => t.Schedules)
-            .HasForeignKey(s => s.TransportNeedId);
-
-        builder.Entity<Schedule>()
-            .HasOne(s => s.TransportOffer)
-            .WithMany(t => t.Schedules)
-            .HasForeignKey(s => s.TransportOfferId);
-
-        builder.Entity<Schedule>()
-            .HasOne(s => s.Transport)
-            .WithMany(t => t.Schedules)
-            .HasForeignKey(s => s.TransportId);
+            .Property(s => s.Name)
+            .HasMaxLength(128);
 
         //Vehicle
         builder.Entity<Vehicle>()

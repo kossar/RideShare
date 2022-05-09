@@ -17,7 +17,7 @@ public class TransportNeedMapper : BaseMapper<TransportNeedModel, BLL.App.DTO.Tr
         return bllTransportNeed;
     }
 
-    public BLL.App.DTO.TransportNeedDto MapToBll(TransportNeedAddModel transportNeedAdd)
+    public BLL.App.DTO.TransportNeedDto MapToBll(CreateUpdateTransportNeedModel transportNeedAdd)
     {
         var bllTransportNeed = _mapper.Map<BLL.App.DTO.TransportNeedDto>(transportNeedAdd);
         return bllTransportNeed;

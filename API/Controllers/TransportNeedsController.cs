@@ -129,13 +129,13 @@ public class TransportNeedsController : ControllerBase
     [ProducesResponseType(typeof(API.DTO.v1.Models.Message), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<API.DTO.v1.Models.TransportNeed.TransportNeedModel>> PostTransportNeed(API.DTO.v1.Models.TransportNeed.TransportNeedAddModel transportNeed)
+    public async Task<ActionResult<API.DTO.v1.Models.TransportNeed.TransportNeedModel>> PostTransportNeed(API.DTO.v1.Models.TransportNeed.CreateUpdateTransportNeedModel transportNeed)
     {
-        //TODO: servicesesse
-        if (transportNeed.DestinationLocationId == Guid.Empty || transportNeed.StartLocationId == Guid.Empty)
-        {
-            return BadRequest(new Message("Asukohad peavad olema täidetud"));
-        }
+        //TODO: servicesess
+        //if (transportNeed.StartLocation == null|| transportNeed.DestinationLocation == null)
+        //{
+        //    return BadRequest(new Message("Asukohad peavad olema täidetud"));
+        //}
 
         var bllTransportNeed = _transportNeedMapper.MapToBll(transportNeed);
         bllTransportNeed.UserId = User.GetUserId()!.Value;

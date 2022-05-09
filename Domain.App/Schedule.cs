@@ -4,14 +4,7 @@ namespace Domain.App;
 
 public class Schedule : DomainEntity
 {
-    public Guid? TransportOfferId { get; set; }
-    public virtual TransportOffer? TransportOffer { get; set; }
-
-    public Guid? TransportNeedId { get; set; }
-    public virtual TransportNeed? TransportNeed { get; set; }
-
-    public Guid? TransportId { get; set; }
-    public virtual Transport? Transport { get; set; }
-
-    public string Name { get; set; } = default!;
+   public string Name { get; set; } = default!;
+    public virtual ICollection<TransportNeed>? TransportNeeds{ get; set; }
+    public virtual ICollection<TransportOffer>? TransportOffers{ get; set; }
 }

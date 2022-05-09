@@ -10,11 +10,11 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        CreateMap<BLL.App.DTO.LocationDto, LocationAddModel>().ReverseMap();
+        CreateMap<BLL.App.DTO.LocationDto, CreateUpdateLocationModel>().ReverseMap();
         CreateMap<BLL.App.DTO.VehicleDto, VehicleAddModel>().ReverseMap();
         CreateMap<BLL.App.DTO.VehicleDto, VehicleModel>().ReverseMap();
 
-        CreateMap<BLL.App.DTO.TransportNeedDto, TransportNeedAddModel>().ReverseMap();
+        CreateMap<BLL.App.DTO.TransportNeedDto, CreateUpdateTransportNeedModel>().ReverseMap();
         CreateMap<BLL.App.DTO.TransportNeedDto, TransportNeedModel>().ReverseMap();
 
         CreateMap<BLL.App.DTO.TransportOfferDto, TransportOfferAddModel>().ReverseMap();
