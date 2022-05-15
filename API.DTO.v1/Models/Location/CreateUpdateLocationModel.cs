@@ -1,6 +1,6 @@
 ﻿namespace API.DTO.v1.Models.Location;
 
-public class LocationAddModel
+public class CreateUpdateLocationModel
 {
     public Guid? Id { get; set; }
     public string Country { get; set; } = default!;

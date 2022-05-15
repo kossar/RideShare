@@ -2,7 +2,9 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using API.DTO.v1.Models.Identity;
+using API.DTO.v1.Models.Location;
 using API.DTO.v1.Models.TransportOffer;
+using API.DTO.v1.Models.Vehicle;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Tests.IntegrationTests.Data;
 using Tests.IntegrationTests.Factories;
@@ -63,7 +65,7 @@ public class TransportOfferControllerTests : IClassFixture<TransportOfferWebAppl
         //ASSERT
         response.EnsureSuccessStatusCode();
         var body = await response.Content.ReadAsStringAsync();
-        var data = JsonHelper.DeserializeWithWebDefaults<IEnumerable<TransportOfferAddModel>>(body);
+        var data = JsonHelper.DeserializeWithWebDefaults<IEnumerable<CreateUpdateTransportOfferModel>>(body);
 
         Assert.NotNull(data);
         Assert.Equal(4, data?.Count());
@@ -76,11 +78,24 @@ public class TransportOfferControllerTests : IClassFixture<TransportOfferWebAppl
         await GetToken();
         var uri = "api/v1/TransportOffers";
 
-        var dto = new TransportOfferAddModel
+        var dto = new CreateUpdateTransportOfferModel()
         {
-            StartLocationId = TestConstants.TransportOfferStartLocationId,
-            DestinationLocationId = TestConstants.TransportOfferDestinationLocationId,
-            VehicleId = TestConstants.TransportOfferVehicleId,
+            StartLocation = new CreateUpdateLocationModel()
+            {
+                Address = "xxx",
+                City = "Tallinn",
+                Country = "Eesti",
+            },
+            DestinationLocation = new CreateUpdateLocationModel()
+            {
+                Address = "ggg",
+                City = "hhh",
+                Country = "Eesti",
+            },
+            Vehicle = new CreateUpdateVehicleModel()
+            {
+                Number = "hhhh",
+            },
             AvailableSeatCount = 1,
             Price = 10,
             IsAd = true,
@@ -96,9 +111,9 @@ public class TransportOfferControllerTests : IClassFixture<TransportOfferWebAppl
         Assert.NotNull(data);
         Assert.True(data.Id != Guid.Empty);
         Assert.True(data.UserId != Guid.Empty);
-        Assert.Equal(dto.StartLocationId, data?.StartLocationId);
-        Assert.Equal(dto.DestinationLocationId, data?.DestinationLocationId);
-        Assert.Equal(dto.VehicleId, data?.VehicleId);
+        //Assert.Equal(dto.StartLocationId, data?.StartLocationId);
+        //Assert.Equal(dto.DestinationLocationId, data?.DestinationLocationId);
+        //Assert.Equal(dto.VehicleId, data?.VehicleId);
         Assert.Equal(dto.AvailableSeatCount, data?.AvailableSeatCount);
         Assert.Equal(dto.Price, data?.Price);
         Assert.Equal(dto.IsAd, data?.IsAd);

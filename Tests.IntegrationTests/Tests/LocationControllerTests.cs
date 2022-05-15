@@ -63,7 +63,7 @@ public class LocationControllerTests : IClassFixture<LocationWebApplicationFacto
         //ASSERT
         response.EnsureSuccessStatusCode();
         var body = await response.Content.ReadAsStringAsync();
-        var data = JsonHelper.DeserializeWithWebDefaults<IEnumerable<LocationAddModel>>(body);
+        var data = JsonHelper.DeserializeWithWebDefaults<IEnumerable<CreateUpdateLocationModel>>(body);
 
         Assert.NotNull(data);
         Assert.Equal(5, data?.Count());
@@ -76,7 +76,7 @@ public class LocationControllerTests : IClassFixture<LocationWebApplicationFacto
         await GetToken();
         var uri = "api/v1/Locations";
 
-        var dto = new LocationAddModel
+        var dto = new CreateUpdateLocationModel
         {
             Country = "Eesti",
             Province = "Harjumaa",
@@ -90,7 +90,7 @@ public class LocationControllerTests : IClassFixture<LocationWebApplicationFacto
         //ASSERT
         response.EnsureSuccessStatusCode();
         var body = await response.Content.ReadAsStringAsync();
-        var data = JsonHelper.DeserializeWithWebDefaults<LocationAddModel>(body);
+        var data = JsonHelper.DeserializeWithWebDefaults<CreateUpdateLocationModel>(body);
 
         Assert.NotNull(data);
         Assert.NotNull(data.Id);
@@ -107,7 +107,7 @@ public class LocationControllerTests : IClassFixture<LocationWebApplicationFacto
         await GetToken();
         var uri = "api/v1/Locations";
 
-        var dto = new LocationAddModel
+        var dto = new CreateUpdateLocationModel
         {
             Country = "Eesti",
             Province = "Harjumaa",
@@ -121,13 +121,13 @@ public class LocationControllerTests : IClassFixture<LocationWebApplicationFacto
         var response = await _client.PostAsJsonAsync(uri, dto);
         response.EnsureSuccessStatusCode();
         var body = await response.Content.ReadAsStringAsync();
-        var data = JsonHelper.DeserializeWithWebDefaults<LocationAddModel>(body);
+        var data = JsonHelper.DeserializeWithWebDefaults<CreateUpdateLocationModel>(body);
         Assert.NotNull(data);
 
 
         var responseGetById = await _client.GetAsync($"{uri}/{data?.Id}");
         var bodyGetById = await responseGetById.Content.ReadAsStringAsync();
-        var dataGetById = JsonHelper.DeserializeWithWebDefaults<LocationAddModel>(bodyGetById);
+        var dataGetById = JsonHelper.DeserializeWithWebDefaults<CreateUpdateLocationModel>(bodyGetById);
         //ASSERT
         responseGetById.EnsureSuccessStatusCode();
 
@@ -146,7 +146,7 @@ public class LocationControllerTests : IClassFixture<LocationWebApplicationFacto
         await GetToken();
         var uri = "api/v1/Locations";
 
-        var dto = new LocationAddModel
+        var dto = new CreateUpdateLocationModel
         {
             Province = "Harjumaa",
             City = "Tallinn",

@@ -44,9 +44,9 @@ public class LocationsController : ControllerBase
     [HttpGet]
     [HttpGet]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(List<LocationAddModel>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<CreateUpdateLocationModel>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<IEnumerable<LocationAddModel>>> GetLocations()
+    public async Task<ActionResult<IEnumerable<CreateUpdateLocationModel>>> GetLocations()
     {
         return Ok((await _bll.Locations.GetAllAsync())
             .Select(l => _locationMapper.Map(l)));
@@ -60,9 +60,9 @@ public class LocationsController : ControllerBase
     /// <returns>API.DTO.v1.Location</returns>
     [HttpGet("{id}")]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(LocationAddModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(CreateUpdateLocationModel), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Message), StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<LocationAddModel>> GetLocation(Guid id)
+    public async Task<ActionResult<CreateUpdateLocationModel>> GetLocation(Guid id)
     {
         var location = await _bll.Locations.FirstOrDefaultAsync(id);
 
@@ -80,21 +80,21 @@ public class LocationsController : ControllerBase
     /// Update location.
     /// </summary>
     /// <param name="id">GUID</param>
-    /// <param name="location">API.DTO.v1.Location</param>
+    /// <param name="createUpdateLocation">API.DTO.v1.Location</param>
     /// <returns>NoContent</returns>
     [HttpPut("{id}")]
     [Consumes("application/json")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(Message), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> PutLocation(Guid id, LocationAddModel location)
+    public async Task<IActionResult> PutLocation(Guid id, CreateUpdateLocationModel createUpdateLocation)
     {
-        if (id != location.Id)
+        if (id != createUpdateLocation.Id)
         {
             return BadRequest(new Message("Cannot update. Id: " + id + " not found."));
         }
 
-        var bllLocation = _locationMapper.Map(location)!;
+        var bllLocation = _locationMapper.Map(createUpdateLocation)!;
 
         _bll.Locations.Update(bllLocation);
 
@@ -110,17 +110,17 @@ public class LocationsController : ControllerBase
     /// <summary>
     /// Saves new location.
     /// </summary>
-    /// <param name="location">API.DTO.v1.LocationAdd </param>
+    /// <param name="createUpdateLocation">API.DTO.v1.LocationAdd </param>
     /// <returns>API.DTO.v1.Location</returns>
     [HttpPost]
     [Consumes("application/json")]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(LocationAddModel), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(CreateUpdateLocationModel), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(Message), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(Message), StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<LocationAddModel>> PostLocation(LocationAddModel location)
+    public async Task<ActionResult<CreateUpdateLocationModel>> PostLocation(CreateUpdateLocationModel createUpdateLocation)
     {
-        var bllLocation = _locationMapper.MapToBll(location);
+        var bllLocation = _locationMapper.MapToBll(createUpdateLocation);
         bllLocation.UserId = User.GetUserId()!.Value;
         var addedLocation = _bll.Locations.Add(bllLocation);
         await _bll.SaveChangesAsync();

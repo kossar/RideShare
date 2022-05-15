@@ -17,9 +17,9 @@ public class VehicleMapper : BaseMapper<VehicleModel, BLL.App.DTO.VehicleDto>
         return bllVehicle;
     }
 
-    public BLL.App.DTO.VehicleDto MapToBll(VehicleAddModel vehicleAdd)
+    public BLL.App.DTO.VehicleDto MapToBll(CreateUpdateVehicleModel createUpdateVehicle)
     {
-        var bllVehicle = _mapper.Map<BLL.App.DTO.VehicleDto>(vehicleAdd);
+        var bllVehicle = _mapper.Map<BLL.App.DTO.VehicleDto>(createUpdateVehicle);
         return bllVehicle;
     }
 }

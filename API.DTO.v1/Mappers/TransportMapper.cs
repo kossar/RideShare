@@ -1,5 +1,7 @@
-﻿using API.DTO.v1.Models.Transport;
+﻿using API.DTO.v1.Models.Ad;
+using API.DTO.v1.Models.Transport;
 using AutoMapper;
+using BLL.App.DTO;
 
 namespace API.DTO.v1.Mappers;
 
@@ -15,5 +17,10 @@ public class TransportMapper : BaseMapper<TransportModel, BLL.App.DTO.TransportD
     {
         var bllTransport = _mapper.Map<BLL.App.DTO.TransportDto>(TransportAdd);
         return bllTransport;
+    }
+
+    public TransportAdListModel MapToBll(TransportAdListDto dtos)
+    {
+        return _mapper.Map<TransportAdListModel>(dtos);
     }
 }

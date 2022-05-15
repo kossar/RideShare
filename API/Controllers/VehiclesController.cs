@@ -105,7 +105,7 @@ public class VehiclesController : ControllerBase
     /// <summary>
     /// Save new Vehicle
     /// </summary>
-    /// <param name="vehicle">API.DTO.v1.Models.Vehicle.VehicleDtoAdd</param>
+    /// <param name="createUpdateVehicle">API.DTO.v1.Models.Vehicle.VehicleDtoAdd</param>
     /// <returns>API.DTO.v1.Models.Vehicle.VehicleDto</returns>
     [HttpPost]
     [Consumes("application/json")]
@@ -113,9 +113,9 @@ public class VehiclesController : ControllerBase
     [ProducesResponseType(typeof(VehicleModel), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(Message), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<VehicleModel>> PostVehicle([FromBody] API.DTO.v1.Models.Vehicle.VehicleAddModel vehicle)
+    public async Task<ActionResult<VehicleModel>> PostVehicle([FromBody] API.DTO.v1.Models.Vehicle.CreateUpdateVehicleModel createUpdateVehicle)
     {
-        var bllVehicle = _vehicleMapper.MapToBll(vehicle);
+        var bllVehicle = _vehicleMapper.MapToBll(createUpdateVehicle);
         bllVehicle.UserId = User.GetUserId()!.Value;
 
         var addedVehicle = _bll.Vehicles.Add(bllVehicle);
