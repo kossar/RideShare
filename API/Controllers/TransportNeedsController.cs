@@ -40,12 +40,13 @@ public class TransportNeedsController : ControllerBase
     /// <returns>List of API.DTO.v1.Models.TransportNeed.TransportNeedDto</returns>
     [HttpGet]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(List<API.DTO.v1.Models.TransportNeed.TransportNeedModel>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<API.DTO.v1.Models.Ad.TransportAdListModel>), StatusCodes.Status200OK)]
     [AllowAnonymous]
-    public async Task<ActionResult<IEnumerable<API.DTO.v1.Models.TransportNeed.TransportNeedModel>>> GetTransportNeeds()
+    public async Task<ActionResult<IEnumerable<API.DTO.v1.Models.Ad.TransportAdListModel>>> GetTransportNeeds()
     {
-        return Ok((await _bll.TransportNeeds.GetAllAsync())
-            .Select(n => _transportNeedMapper.Map(n)));
+        Guid userId = User.GetUserId() != null ? User.GetUserId()!.Value : default;
+        return Ok((await _bll.TransportNeeds.GetAllWithIncludingsAsync(userId))
+            .Select(n => _transportNeedMapper.MapTransportNeedToAdListItem(n, userId)));
     }
 
     // GET: api/TransportNeeds
@@ -53,14 +54,14 @@ public class TransportNeedsController : ControllerBase
     /// Gets all TransportNeeds that contains User id.
     /// </summary>
     /// <returns>List of API.DTO.v1.Models.TransportNeed.TransportNeedDto</returns>
-    [HttpGet("user")]
-    [Produces("application/json")]
-    [ProducesResponseType(typeof(List<API.DTO.v1.Models.TransportNeed.TransportNeedModel>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<API.DTO.v1.Models.TransportNeed.TransportNeedModel>>> GetUserTransportNeeds()
-    {
-        return Ok((await _bll.TransportNeeds.GetAllAsync(User.GetUserId()!.Value))
-            .Select(n => _transportNeedMapper.Map(n)));
-    }
+    //[HttpGet("user")]
+    //[Produces("application/json")]
+    //[ProducesResponseType(typeof(IEnumerable<API.DTO.v1.Models.Ad.TransportAdListModel>), StatusCodes.Status200OK)]
+    //public async Task<ActionResult<IEnumerable<API.DTO.v1.Models.Ad.TransportAdListModel>>> GetUserTransportNeeds()
+    //{
+    //    return Ok((await _bll.TransportNeeds.GetAllWithIncludingsAsync(User.GetUserId()!.Value))
+    //        .Select(n => _transportNeedMapper.Map(n)));
+    //}
 
     // GET: api/TransportNeeds/5
     /// <summary>
@@ -137,8 +138,7 @@ public class TransportNeedsController : ControllerBase
         //    return BadRequest(new Message("Asukohad peavad olema täidetud"));
         //}
 
-        var bllTransportNeed = _transportNeedMapper.MapToBll(transportNeed);
-        bllTransportNeed.UserId = User.GetUserId()!.Value;
+        var bllTransportNeed = _transportNeedMapper.MapToBll(transportNeed, User.GetUserId()!.Value);
         var addedTransportNeed = _bll.TransportNeeds.Add(bllTransportNeed);
         await _bll.SaveChangesAsync();
 

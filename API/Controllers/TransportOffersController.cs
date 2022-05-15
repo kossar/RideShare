@@ -20,7 +20,7 @@ namespace API.Controllers;
 public class TransportOffersController : ControllerBase
 {
     private readonly IAppBLL _bll;
-    private API.DTO.v1.Mappers.TransportOfferMapper _transportOfferMapper;
+    private readonly API.DTO.v1.Mappers.TransportOfferMapper _transportOfferMapper;
 
     /// <summary>
     /// TransportOffers controller constructor
@@ -41,13 +41,13 @@ public class TransportOffersController : ControllerBase
     [HttpGet]
     [AllowAnonymous]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(List<API.DTO.v1.Models.TransportOffer.TransportOfferModel>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<API.DTO.v1.Models.TransportOffer.TransportOfferModel>>> GetTransportOffers()
+    [ProducesResponseType(typeof(IEnumerable<API.DTO.v1.Models.Ad.TransportAdListModel>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<IEnumerable<API.DTO.v1.Models.Ad.TransportAdListModel>>> GetTransportOffers()
     {
-        var res = (await _bll.TransportOffers.GetAllAsync())
-            .Select(t => _transportOfferMapper.Map(t));
-        var listItems = res.Select(x => _transportOfferMapper.Map(x));
-        return Ok(listItems);
+        Guid userId = User.GetUserId() != null ? User.GetUserId()!.Value : default;
+        var res = (await _bll.TransportOffers.GetAllWithIncludingsAsync(userId))
+            .Select(t => _transportOfferMapper.MapTransportOfferToListItem(t, userId));
+        return Ok(res);
 
     }
 
@@ -141,10 +141,9 @@ public class TransportOffersController : ControllerBase
     [ProducesResponseType(typeof(TransportOfferModel), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(Message), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<TransportOfferModel>> PostTransportOffer(API.DTO.v1.Models.TransportOffer.TransportOfferAddModel transportOffer)
+    public async Task<ActionResult<TransportOfferModel>> PostTransportOffer(API.DTO.v1.Models.TransportOffer.CreateUpdateTransportOfferModel transportOffer)
     {
-        var bllTransportOffer = _transportOfferMapper.MapToBll(transportOffer);
-        bllTransportOffer.UserId = User.GetUserId()!.Value;
+        var bllTransportOffer = _transportOfferMapper.MapToBll(transportOffer, User.GetUserId()!.Value);
         var addedTransportOffer = _bll.TransportOffers.Add(bllTransportOffer);
         await _bll.SaveChangesAsync();
 

@@ -2,6 +2,7 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using API.DTO.v1.Models.Identity;
+using API.DTO.v1.Models.Location;
 using API.DTO.v1.Models.TransportNeed;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Tests.IntegrationTests.Data;
@@ -76,10 +77,20 @@ public class TransportNeedsControllerTests : IClassFixture<TransportNeedWebAppli
         await GetToken();
         var uri = "api/v1/TransportNeeds";
 
-        var dto = new TransportNeedAddModel
+        var dto = new CreateUpdateTransportNeedModel()
         {
-            StartLocationId = TestConstants.TransportNeedStartLocationId,
-            DestinationLocationId = TestConstants.TransportNeedDestinationLocationId,
+            StartLocation = new CreateUpdateLocationModel()
+            {
+                Address = "xxx",
+                City = "Tallinn",
+                Country = "Eesti",
+            },
+            DestinationLocation = new CreateUpdateLocationModel()
+            {
+                Address = "ggg",
+                City = "hhh",
+                Country = "Eesti",
+            },
             PersonCount = 1,
             Price = 2,
             IsAd = true,
@@ -95,8 +106,8 @@ public class TransportNeedsControllerTests : IClassFixture<TransportNeedWebAppli
         Assert.NotNull(data);
         Assert.True(data.Id != Guid.Empty);
         Assert.True(data.UserId != Guid.Empty);
-        Assert.Equal(dto.StartLocationId, data?.StartLocationId);
-        Assert.Equal(dto.DestinationLocationId, data?.DestinationLocationId);
+        //Assert.Equal(dto.StartLocationId, data?.StartLocationId);
+        //Assert.Equal(dto.DestinationLocationId, data?.DestinationLocationId);
         Assert.Equal(dto.PersonCount, data?.PersonCount);
         Assert.Equal(dto.IsAd, data?.IsAd);
         Assert.Equal(dto.Description, data?.Description);
@@ -109,10 +120,20 @@ public class TransportNeedsControllerTests : IClassFixture<TransportNeedWebAppli
         await GetToken();
         var uri = "api/v1/TransportNeeds";
 
-        var dto = new TransportNeedAddModel
+        var dto = new CreateUpdateTransportNeedModel()
         {
-            StartLocationId = TestConstants.TransportNeedStartLocationId,
-            DestinationLocationId = TestConstants.TransportNeedDestinationLocationId,
+            StartLocation = new CreateUpdateLocationModel()
+            {
+                Address = "xxx",
+                City = "Tallinn",
+                Country = "Eesti",
+            },
+            DestinationLocation = new CreateUpdateLocationModel()
+            {
+                Address = "ggg",
+                City = "hhh",
+                Country = "Eesti",
+            },
             PersonCount = 1,
             Price = 2,
             IsAd = true,
@@ -134,8 +155,8 @@ public class TransportNeedsControllerTests : IClassFixture<TransportNeedWebAppli
         Assert.NotNull(data);
         Assert.True(dataGetById.Id != Guid.Empty);
         Assert.True(dataGetById.UserId != Guid.Empty);
-        Assert.Equal(dto.StartLocationId, dataGetById?.StartLocationId);
-        Assert.Equal(dto.DestinationLocationId, dataGetById?.DestinationLocationId);
+        //Assert.Equal(dto.StartLocationId, dataGetById?.StartLocationId);
+        //Assert.Equal(dto.DestinationLocationId, dataGetById?.DestinationLocationId);
         Assert.Equal(dto.PersonCount, dataGetById?.PersonCount);
         Assert.Equal(dto.IsAd, dataGetById?.IsAd);
         Assert.Equal(dto.Description, dataGetById?.Description);
@@ -148,9 +169,12 @@ public class TransportNeedsControllerTests : IClassFixture<TransportNeedWebAppli
         await GetToken();
         var uri = "api/v1/TransportNeeds";
 
-        var dto = new TransportNeedAddModel
+        var dto = new CreateUpdateTransportNeedModel()
         {
-            StartLocationId = TestConstants.TransportNeedStartLocationId,
+            StartLocation = new CreateUpdateLocationModel()
+            {
+                Address = "ddd",
+            },
             PersonCount = 1,
             Price = 2,
             IsAd = true,

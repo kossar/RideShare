@@ -7,5 +7,5 @@ namespace Contracts.BLL.App.Services;
 
 public interface ITransportService : IBaseEntityService<BLLAppDTO.TransportDto, TransportDto>, ITransportRepositoryCustom<TransportDto>
 {
-
+    Task<IEnumerable<BLLAppDTO.TransportAdListDto>> GetLastOffersAndNeedsByCount(int count, Guid? userId);
 }

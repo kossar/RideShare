@@ -75,7 +75,7 @@ public class VehicleControllerTests : IClassFixture<VehicleWebApplicationFactory
         await GetToken();
         var uri = "api/v1/Vehicles";
 
-        var dto = new VehicleAddModel
+        var dto = new CreateUpdateVehicleModel
         {
             Make = "BMW",
             Model = "X¤",
@@ -103,7 +103,7 @@ public class VehicleControllerTests : IClassFixture<VehicleWebApplicationFactory
         await GetToken();
         var uri = "api/v1/Vehicles";
 
-        var dto = new VehicleAddModel
+        var dto = new CreateUpdateVehicleModel
         {
             Make = "BMW",
             Model = "X¤",
@@ -136,7 +136,7 @@ public class VehicleControllerTests : IClassFixture<VehicleWebApplicationFactory
         await GetToken();
         var uri = "api/v1/Vehicles";
 
-        var dto = new VehicleAddModel
+        var dto = new CreateUpdateVehicleModel
         {
             Make = "BMW",
             Model = "X¤",

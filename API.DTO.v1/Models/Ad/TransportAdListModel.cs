@@ -8,7 +8,7 @@ public class TransportAdListModel
     public int PersonSeatCount { get; set; }
     public decimal Price { get; set; }
     public bool IsTransportNeed { get; set; }
-    public DateTime StartTime { get; set; }
+    public DateTime StartAt { get; set; }
     public DateTime CreatedAt { get; set; }
-
+    public bool UserCanView { get; set; }
 }

@@ -10,5 +10,6 @@ public interface ITransportOfferRepository : IBaseRepository<TransportOfferDto>,
 
 public interface ITransportOfferRepositoryCustom<TEntity>
 {
-
+    Task<IEnumerable<TransportOfferDto>> GetAllWithIncludingsAsync(Guid userId = default, bool noTracking = true);
+    Task<IEnumerable<TransportOfferDto>> GetByCountAsync(int count);
 }
